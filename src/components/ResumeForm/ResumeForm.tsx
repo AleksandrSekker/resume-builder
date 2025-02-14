@@ -9,7 +9,6 @@ export const ResumeForm = ({ onSubmit, defaultValues, onChange }: PropsResumeFor
   const watchedData = watch();
   const previousData = useRef<FormValues | null>(defaultData);
   const typingTimer = useRef<NodeJS.Timeout | null>(null);
-
   // Use `useFieldArray` for sections with lists (e.g., personalDetailsList, employmentList, etc.)
   const personalDetailsList = useFieldArray({ control, name: 'personalDetails.personalDetailsList' });
   const employmentList = useFieldArray({ control, name: 'employmentHistory.employmentList' });
@@ -20,40 +19,23 @@ export const ResumeForm = ({ onSubmit, defaultValues, onChange }: PropsResumeFor
   const isLink = (itemChecked: PersonalDetailsListItem | LinkItem | SkillItem) => {
     return 'link' in itemChecked;
   };
-  const debounce = <T extends (...args: any[]) => void>(func: T, delay: number): T => {
-    let timeout: NodeJS.Timeout;
-    const debouncedFunction = ((...args: Parameters<T>) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), delay);
-    }) as T;
-    return debouncedFunction;
-  };
-
-  // Debounced version of onChange
-  const debouncedOnChange = debounce((data: FormValues) => {
-    if (onChange) onChange(data);
-  }, 1000);
 
   useEffect(() => {
-    // Compare the current form data with the previous data
     if (previousData.current && JSON.stringify(previousData.current) === JSON.stringify(watchedData)) {
       return; // No changes detected, skip execution
     }
 
-    // Clear any existing typing timer
     if (typingTimer.current) {
       clearTimeout(typingTimer.current);
     }
 
-    // Set up a new typing timer to trigger `onChange` after a delay
     typingTimer.current = setTimeout(() => {
-      previousData.current = JSON.parse(JSON.stringify(watchedData)); // Deep copy the current data
-      if (onChange) onChange(watchedData); // Trigger onChange callback
-    }, 1000); // Delay of 1000ms
+      previousData.current = JSON.parse(JSON.stringify(watchedData));
+      if (onChange) onChange(watchedData);
+    }, 1000);
   }, [watchedData, onChange]);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
-      {/* Personal Details */}
       <h2 className="text-lg font-bold">Personal Details</h2>
       <input
         {...register('personalDetails.jobTitle.title')}

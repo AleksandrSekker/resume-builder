@@ -1,5 +1,5 @@
 import { SectionWithPersonalDetails } from '@/types';
-import { View, Text, StyleSheet, Link, Image } from '@react-pdf/renderer';
+import { View, Text, StyleSheet, Image } from '@react-pdf/renderer';
 interface Props {
   data: SectionWithPersonalDetails;
 }
