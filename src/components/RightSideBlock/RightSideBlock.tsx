@@ -41,8 +41,8 @@ export const RightSideBlock: React.FC<SectionProps> = ({ sectionName, items, sta
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionTitle}>{sectionName}</Text>
       {displayedItems.map((item) =>
-        Object.hasOwn(item, 'link') && isLink(item) ? (
-          <Link style={styles.sectionText} key={item.id} href={item.link}>
+        isLink(item) ? (
+          <Link style={styles.sectionText} key={item.id} href={"link" in item ? item.link : ''}>
             {item.title}
           </Link>
         ) : (
