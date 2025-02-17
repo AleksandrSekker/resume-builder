@@ -1,6 +1,5 @@
 'use client';
-import { ResumeForm, ResumePDF } from '@/components';
-import { PDFViewer } from '@react-pdf/renderer';
+import { PDFWrapper, ResumeForm } from '@/components';
 import { useState } from 'react';
 import { FormValues } from '@/types';
 import { defaultData } from '@/data';
@@ -28,17 +27,16 @@ export default function Home() {
       {/* Right: Live PDF Preview */}
       <div className="border p-4 rounded-lg">
         <h2 className="text-xl font-bold mb-4">Live Preview</h2>
-        <PDFViewer width={'100%'} height={'95%'}>
-          <ResumePDF
-            personalDetails={personalDetails}
-            links={links}
-            education={education}
-            employmentHistory={employmentHistory}
-            languages={languages}
-            profile={profile}
-            skills={skills}
-          />
-        </PDFViewer>
+
+        <PDFWrapper
+          personalDetails={personalDetails}
+          links={links}
+          education={education}
+          employmentHistory={employmentHistory}
+          languages={languages}
+          profile={profile}
+          skills={skills}
+        />
       </div>
     </div>
   );
