@@ -1,17 +1,21 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { ResumePDF } from '@/components';
 import { FormValues } from '@/types';
+import { PDFViewer } from '@react-pdf/renderer';
+import { useEffect, useState } from 'react';
 
-const PDFViewer = dynamic(() => import('@react-pdf/renderer').then((mod) => mod.PDFViewer), {
-  ssr: false,
-  loading: () => <p>Loading...</p>,
-});
 export const PDFWrapper = (children: FormValues) => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
   return (
-    <PDFViewer width={'100%'} height={'95%'}>
-      <ResumePDF {...children} />
-    </PDFViewer>
+    loaded && (
+      <PDFViewer width={'100%'} height={'95%'}>
+        <ResumePDF {...children} />
+      </PDFViewer>
+    )
   );
 };
