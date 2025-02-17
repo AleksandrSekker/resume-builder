@@ -37,14 +37,21 @@ export const RightSideBlock: React.FC<SectionProps> = ({ sectionName, items, sta
   const isLevel = (itemChecked: PersonalDetailsListItem | LinkItem | SkillItem) => {
     return 'level' in itemChecked;
   };
+  const linkComponent = (item: PersonalDetailsListItem | LinkItem | SkillItem) => {
+    if ("link" in item && item.link !== "") {
+      return (
+      <Link style={styles.sectionText} key={item.id} href={item.link}>
+        {item.title}
+      </Link>)
+    }
+    return null
+  }
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionTitle}>{sectionName}</Text>
       {displayedItems.map((item) =>
         isLink(item) ? (
-          <Link style={styles.sectionText} key={item.id} href={"link" in item ? item.link : ''}>
-            {item.title}
-          </Link>
+            linkComponent(item)
         ) : (
           <Text style={styles.sectionText} key={item.id}>
             {isLevel(item) ? `${item.title}  ${item.level}` : item.title}
